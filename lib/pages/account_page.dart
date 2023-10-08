@@ -54,7 +54,7 @@ class _AccountPageState extends State<AccountPage> {
         children: [
           Container(
             // width: 100.0, // Set the container's width as needed
-            height: 450.0, // Set the container's height as needed
+            height: 350.0, // Set the container's height as needed
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.all(10.0),
             // color: Colors.blue,
@@ -108,22 +108,7 @@ class _AccountPageState extends State<AccountPage> {
                                     ),),
                                   ),
                               ),
-                              const SizedBox(height: 50.0),
-                              Center(
-                                child: ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                                    ),
-                                    onPressed: ()  {
-                                      // logout();
-                                      sign();
-                                    },
-                                    child: const Text('Sign', style: TextStyle(
-                                      color: Colors.white, fontSize: 13,
-
-                                    ),),
-                                  ),
-                              )
+                              
                             ],
                           ),
                         ),

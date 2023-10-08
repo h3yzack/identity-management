@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:myid_wallet/pages/home_page.dart';
 import 'package:myid_wallet/pages/login_page.dart';
 import 'package:myid_wallet/pages/profile/form_page.dart';
 import 'package:myid_wallet/utils/common_constant.dart';
 import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 void main() {
-  // runApp(const MyApp());
   runApp(const ProviderScope(child: MyApp()));
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider(create: (_) => ActionProvider()),
-  //       // Add other providers here if needed
-  //     ],
-  //     child: const MyApp(),
-  //   ),
-  // );
 }
 
 class MyApp extends StatefulWidget {
@@ -64,11 +52,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
     );
 
-    // TODO  registerEventHandler
-    // _web3App!.registerEventHandler(chainId: chain.chainId, event: event);
-    // _web3App!.onSessionPing.subscribe(_onSessionPing);
-    // _web3App!.onSessionEvent.subscribe(_onSessionEvent);
-
     setState(() {
       _initialized = true;
     });
@@ -103,7 +86,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routes: {
         MyIdRoutes.loginRoute: (context) => LoginPage(web3App: _web3App!),
         MyIdRoutes.homeRoute: (context) =>  HomePage(web3App: _web3App!),
-        // MyIdRoutes.profileRoute: (context) => const ProfilePage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == MyIdRoutes.profileForm) {

@@ -4,6 +4,19 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
+class SessionInfo {
+  final String topic;
+  final String chainId;
+  final String address;
+
+
+  SessionInfo({
+    required this.topic,
+    required this.chainId,
+    required this.address
+  });
+  
+}
 
 class SessionProvider  {
   
@@ -50,5 +63,15 @@ class SessionProvider  {
     await delete(key: 'address');
     await delete(key: 'chainId');
     await delete(key: 'topic');
+  }
+
+  Future<SessionInfo> getSessionInfo() async {
+    String address = await getAddress() ?? '';
+    String topic = await getTopic() ?? '';
+    String chainId = await getChainId() ?? '';
+
+    SessionInfo sessionInfo = SessionInfo(address: address, chainId: chainId, topic: topic);
+
+    return sessionInfo;
   }
 }

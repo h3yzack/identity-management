@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:myid_wallet/model/chain_metadata.dart';
 import 'package:myid_wallet/model/did_document.dart';
@@ -15,14 +14,13 @@ import 'package:myid_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 import 'package:web3dart/web3dart.dart';
 
-final didServiceProvider = ChangeNotifierProvider((ref) => DidService());
 
 enum SC_METHOD {
   addDIDDocument,
   getDIDDocuments
 }
 
-class DidService extends ChangeNotifier {
+class DidService {
   final String contractName = 'DIDRegistry';
 
   Status addRecordStatus = Status.init;
@@ -47,7 +45,6 @@ class DidService extends ChangeNotifier {
     await _getAbiAndContract();
     // await _getDeployedContract();
 
-    notifyListeners();
   }
 
   Future<void> _getAbiAndContract() async {
@@ -88,7 +85,6 @@ class DidService extends ChangeNotifier {
     // }
 
     addRecordStatus = Status.done;
-    notifyListeners();
 
     return didDocuments;
     
@@ -136,7 +132,6 @@ class DidService extends ChangeNotifier {
 
     debugPrint('to add new did -  addDid');
     addRecordStatus = Status.loading;
-    notifyListeners();
 
     String address = await sessionStorage.getAddress() ?? '';
     var topic = await sessionStorage.getTopic() ?? '';
@@ -174,6 +169,5 @@ class DidService extends ChangeNotifier {
     debugPrint('addDid completed');
     // return transactionId;
     addRecordStatus = Status.done;
-    notifyListeners();
   }
 }
