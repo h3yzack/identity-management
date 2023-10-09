@@ -126,7 +126,7 @@ class _AccountPageState extends State<AccountPage> {
   }
   
   void _initialize() async {
-    accountAddress = await sessionStorage.getAddress();
+    accountAddress = await SessionProvider.getAddress();
    
     try {
       AccountInfoService accountInfoService = AccountInfoService();
@@ -142,8 +142,8 @@ class _AccountPageState extends State<AccountPage> {
       });
 
       print("--------------");
-      String? address = await sessionStorage.getAddress();
-      String? chainId = await sessionStorage.getChainId();
+      String? address = await SessionProvider.getAddress();
+      String? chainId = await SessionProvider.getChainId();
 
       print('Address: $address , chainId: $chainId');
       print('bcAddress $bcAddress, balance: $balance, ethBalance: $ethBalance');
@@ -171,10 +171,10 @@ class _AccountPageState extends State<AccountPage> {
 
   logout() async {
     try {
-      var topic = await sessionStorage.getTopic();
+      var topic = await SessionProvider.getTopic();
       widget.web3App.disconnectSession(topic: topic.toString(), reason: const WalletConnectError(code: 01, message: "logout"));
 
-      await sessionStorage.clearSession();
+      await SessionProvider.clearSession();
 
       Navigator.popAndPushNamed(context, MyIdRoutes.loginRoute);
     } catch (e) {
@@ -184,7 +184,7 @@ class _AccountPageState extends State<AccountPage> {
   }
   
   sign() async {
-    var topic = await sessionStorage.getTopic();
+    var topic = await SessionProvider.getTopic();
     ChainMetadata chain = MyIdConstant.testChain;
     String data = '0xb27058d5e07484c851bca8c16503e3e92cd2ee6bce946d64f9e8d8cbd3b12a16';
 

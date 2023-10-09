@@ -20,32 +20,32 @@ class SessionInfo {
 
 class SessionProvider  {
   
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   // Store a key-value pair securely
-  Future<void> write({required String key, required String value}) async {
+  static Future<void> write({required String key, required String value}) async {
     await _storage.write(key: key, value: value);
   }
 
   // Read a value from secure storage
-  Future<String?> read({required String key}) async {
+  static Future<String?> read({required String key}) async {
     return await _storage.read(key: key);
   }
 
   // Delete a key-value pair from secure storage
-  Future<void> delete({required String key}) async {
+  static Future<void> delete({required String key}) async {
     await _storage.delete(key: key);
   }
 
-  Future<String?> getAddress() async {
+  static Future<String?> getAddress() async {
     return await _storage.read(key: 'address');
   }
 
-  Future<String?> getTopic() async {
+  static Future<String?> getTopic() async {
     return await _storage.read(key: 'topic');
   }
 
-  Future<String?> getChainId() async {
+  static Future<String?> getChainId() async {
     return await _storage.read(key: 'chainId');
   }
 
@@ -59,13 +59,13 @@ class SessionProvider  {
       await write(key: 'topic', value: sessionData.topic);
   }
 
-  clearSession() async {
+  static clearSession() async {
     await delete(key: 'address');
     await delete(key: 'chainId');
     await delete(key: 'topic');
   }
 
-  Future<SessionInfo> getSessionInfo() async {
+  static Future<SessionInfo> getSessionInfo() async {
     String address = await getAddress() ?? '';
     String topic = await getTopic() ?? '';
     String chainId = await getChainId() ?? '';
@@ -74,4 +74,6 @@ class SessionProvider  {
 
     return sessionInfo;
   }
+
+
 }

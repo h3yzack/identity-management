@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myid_wallet/provider/did_provider.dart';
+import 'package:myid_wallet/services/did_document_service.dart';
 import 'package:myid_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
@@ -40,7 +41,7 @@ class _ProfileFormPageState extends ConsumerState<ProfileFormPage> {
     // final state = ref.watch(didDocumentProvider);
     // bool isLoading = ref.watch(didDocumentProvider).isLoading;
     bool isSaving = ref.watch(didDocumentProvider).isSaving;
-
+    print('is saving... $isSaving');
 
     return Scaffold(
       appBar: AppBar(
@@ -100,6 +101,7 @@ class _ProfileFormPageState extends ConsumerState<ProfileFormPage> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
+                            ref.read(didDocumentProvider.notifier).cancelTask();
                             Navigator.pop(context);
                           },
                           child: const Text('Cancel'),
@@ -112,19 +114,27 @@ class _ProfileFormPageState extends ConsumerState<ProfileFormPage> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              saveRecord();
-                              // submitForm();
+                              // saveRecord();
+                              submitForm();
                             
                             }
                           },
-                          child: isSaving ? 
-                              const CircularProgressIndicator(
-                                color: Colors.white,
-                              ) :
-                              const Text('Save', style: TextStyle(color: Colors.white, fontSize: 13,)),
+                          child: const Text('Save', 
+                                  style: TextStyle(color: Colors.white, fontSize: 13,)
+                                ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 20.0),
+                    if (isSaving) ...[
+                        const Center(
+                          child: CircularProgressIndicator(
+                                color: Colors.grey,
+                              ),
+                        )
+                        
+                      ],
+                    
                     
                   ],
                 ),
@@ -137,8 +147,21 @@ class _ProfileFormPageState extends ConsumerState<ProfileFormPage> {
     final status = await ref.read(didDocumentProvider.notifier).saveDidDocument(widget.web3App, _name, _type);
 
     print('status: $status');
+    ref.read(didDocumentProvider.notifier).loadDids();
 
     Navigator.pop(context, true);
+  }
+
+  submitForm() async {
+    print('start saving did document');
+    ref.read(didDocumentProvider.notifier).updateIsSaving(true);
+
+    final didService = await DidDocumentService.web3().loadContract();
+    final status = await didService.saveDidDocument(widget.web3App, _name, _type);
+
+    ref.read(didDocumentProvider.notifier).loadDids();
+    print('SAVE DID DOCUMENT STATUS: $status');
+
   }
 
   // submitForm() async {

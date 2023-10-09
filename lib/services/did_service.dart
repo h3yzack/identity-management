@@ -96,8 +96,8 @@ class DidService {
     Credentials credentials = EthPrivateKey.fromHex('0x84dbc48cb51f683855b9f587a37ddf52776f9b0101d524eafc913ab76379d52e');
 
     print('own address: ${credentials.address}');
-    String address = await sessionStorage.getAddress() ?? '';
-    var topic = await sessionStorage.getTopic() ?? '';
+    String address = await SessionProvider.getAddress() ?? '';
+    var topic = await SessionProvider.getTopic() ?? '';
     ChainMetadata chain = MyIdConstant.testChain;
 
     Transaction transaction = Transaction.callContract(
@@ -133,8 +133,8 @@ class DidService {
     debugPrint('to add new did -  addDid');
     addRecordStatus = Status.loading;
 
-    String address = await sessionStorage.getAddress() ?? '';
-    var topic = await sessionStorage.getTopic() ?? '';
+    String address = await SessionProvider.getAddress() ?? '';
+    var topic = await SessionProvider.getTopic() ?? '';
     ChainMetadata chain = MyIdConstant.testChain;
 
     Transaction transaction = Transaction.callContract(

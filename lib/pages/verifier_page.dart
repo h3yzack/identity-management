@@ -39,8 +39,8 @@ class _VerifierPageState extends State<VerifierPage> {
     // dynamic session = await SessionManager().get("session");
 
     print("--------------");
-    String? address = await sessionStorage.getAddress();
-    String? chainId = await sessionStorage.getChainId();
+    String? address = await SessionProvider.getAddress();
+    String? chainId = await SessionProvider.getChainId();
 
     print('Address: $address , chainId: $chainId');
 

@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:myid_wallet/model/issued_credential.dart';
 import 'package:myid_wallet/pages/home_page.dart';
+import 'package:myid_wallet/pages/issuer/issuer_form_page.dart';
 import 'package:myid_wallet/pages/login_page.dart';
 import 'package:myid_wallet/pages/profile/form_page.dart';
 import 'package:myid_wallet/utils/common_constant.dart';
 import 'package:myid_wallet/utils/routes.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-void main() {
+Future<void> main() async {
+
+  // init hive
+  WidgetsFlutterBinding.ensureInitialized();
+  // final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDir.path);
+  
+  await Hive.initFlutter();
+  Hive.registerAdapter(IssuedCredentialAdapter());
+
+  await Hive.openBox<IssuedCredential>('IssuedCredential');
+  // await Hive.openBox<User>('users');
+  
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -93,6 +108,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           final param = args['id'];
           return MaterialPageRoute(
             builder: (context) => ProfileFormPage(web3App: _web3App!, id: param),
+          );
+        } else if (settings.name == MyIdRoutes.issueCredentialForm) {
+          final args = settings.arguments as Map<String, String?>;
+          final param = args['id'];
+          return MaterialPageRoute(
+            builder: (context) => IssuerFormPage(web3App: _web3App!, id: param),
           );
         }
       },

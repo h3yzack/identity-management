@@ -38,11 +38,15 @@ class DidNotifier extends StateNotifier<DidState> {
     state = state.copyWith(isLoading: true);
     final didService = await DidDocumentService(_web3client).loadContract();
 
-    String? address = await sessionStorage.getAddress();
+    String address = await SessionProvider.getAddress() ?? '';
 
-    final didDocuments = await didService.getDidDocumentByUser(address ?? '');
+    if (address.isNotEmpty) {
+      final didDocuments = await didService.getDidDocumentByUser(address);
+      state = state.copyWith(didDocuments: didDocuments, isLoading: false);
+    } else {
+      state = state.copyWith(isLoading: false);
+    }
 
-    state = state.copyWith(didDocuments: didDocuments, isLoading: false);
   }
   
   // loadSearchedNews(String title) async {
@@ -52,17 +56,25 @@ class DidNotifier extends StateNotifier<DidState> {
   //   state = state.copyWith(newsModel: news,isLoading: false);
   // }
 
-  Future<bool> saveDidDocument(Web3App web3App, String name, String type) async {
+  saveDidDocument(Web3App web3App, String name, String type)  {
     state = state.copyWith(isSaving: true);
 
-    final didService = await DidDocumentService(_web3client).loadContract();
-    final status = await didService.saveDidDocument(web3App, name, type);
+    // final didService = await DidDocumentService(_web3client).loadContract();
+    // final status = await didService.saveDidDocument(web3App, name, type);
 
-    print('SAVE DID DOCUMENT STATUS: $status');
+    // print('SAVE DID DOCUMENT STATUS: $status');
 
-    state =  state.copyWith(isSaving: false, recordAdded: 2);
+    // state =  state.copyWith(isSaving: false, recordAdded: 2);
 
-    return true;
+    // return true;
+  }
+
+  updateIsSaving(bool status) {
+    state = state.copyWith(isSaving: status);
+  }
+
+  cancelTask() {
+    state = state.copyWith(isSaving: false, isLoading: false);
   }
 }
 

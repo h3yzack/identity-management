@@ -6,4 +6,5 @@ class MyIdRoutes {
 
 
   static const String profileForm = '/profile/form/:id';
+  static const String issueCredentialForm = '/credential/form/:id';
 }

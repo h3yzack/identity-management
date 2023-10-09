@@ -6,6 +6,7 @@ import 'package:myid_wallet/pages/myid_page.dart';
 import 'package:myid_wallet/pages/profile_page.dart';
 import 'package:myid_wallet/pages/verifier_page.dart';
 import 'package:myid_wallet/provider/did_provider.dart';
+import 'package:myid_wallet/provider/issued_credential_provider.dart';
 import 'package:myid_wallet/utils/routes.dart';
 import 'package:myid_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
@@ -84,8 +85,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     // dynamic session = await SessionManager().get("session");
 
     print("--------------");
-    String? address = await sessionStorage.getAddress();
-    String? chainId = await sessionStorage.getChainId();
+    String? address = await SessionProvider.getAddress();
+    String? chainId = await SessionProvider.getChainId();
 
     print('Address: $address , chainId: $chainId');
 
@@ -97,6 +98,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     // reload DID DOC
     print('reload did document...');
     ref.read(didDocumentProvider.notifier).loadDids();
+    ref.read(issuedCredentialProvider.notifier).loadRecords();
   }
 
   void _onItemTapped(int index) {

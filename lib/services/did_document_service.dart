@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:myid_wallet/model/chain_metadata.dart';
 import 'package:myid_wallet/model/did_document.dart';
 import 'package:myid_wallet/model/ethereum_transaction.dart';
@@ -22,14 +23,17 @@ enum SC_METHOD {
 class DidDocumentService {
   final String contractName = 'DIDRegistry';
 
-  final Web3Client web3client;
+  Web3Client? web3client;
 
   late final String _abiCode;
   late final EthereumAddress _contractAddress;
   late final DeployedContract _deployedContract;
-  SessionProvider sessionStorage = SessionProvider();
 
   DidDocumentService(this.web3client);
+
+  DidDocumentService.web3() {
+    web3client = Web3Client(MyIdConstant.RPC_URL, Client());
+  }
 
   Future<DidDocumentService> loadContract() async {
     String abiFile = await rootBundle.loadString('assets/contracts/$contractName.json');
@@ -47,9 +51,9 @@ class DidDocumentService {
   Future<List<DidDocument>> getDidDocumentByUser(String address) async {
     debugPrint('to getDIDsByUser $address');
 
-    final result = await web3client
-        .call(contract: _deployedContract, function: _deployedContract.function(SC_METHOD.getDIDDocuments.name), 
-        params: [EthereumAddress.fromHex(address)]);
+    final result = await web3client!
+                    .call(contract: _deployedContract, function: _deployedContract.function(SC_METHOD.getDIDDocuments.name), 
+                    params: [EthereumAddress.fromHex(address)]);
 
     List<dynamic> records = result[0];
     List<DidDocument> didDocuments = records.map((item) => DidDocument.fromJson(json.decode(item))).toList();
@@ -59,10 +63,10 @@ class DidDocumentService {
 
   Future<bool> saveDidDocument(Web3App web3App, String name, String type) async {
     
-    SessionInfo sessionInfo = await sessionStorage.getSessionInfo();
+    SessionInfo sessionInfo = await SessionProvider.getSessionInfo();
 
     // get tokenId
-    final myIdService = await MyIdService(web3client).loadContract();
+    final myIdService = await MyIdService(web3client!).loadContract();
 
     String tokenId = await myIdService.generateTokenId(sessionInfo.address);
 
