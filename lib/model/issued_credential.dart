@@ -31,6 +31,12 @@ class IssuedCredential extends HiveObject {
   @HiveField(8)
   String? createdBy;
 
+  @HiveField(9)
+  bool? issued;
+
+  @HiveField(10)
+  String? hashData;
+
   IssuedCredential({
     this.credentialId,
     this.userDid,
@@ -40,6 +46,7 @@ class IssuedCredential extends HiveObject {
     this.issuerDid,
     this.issuerAddress,
     this.issueDate,
-    this.createdBy
+    this.createdBy,
+    this.issued
   });
 }

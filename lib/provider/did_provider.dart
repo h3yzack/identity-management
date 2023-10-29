@@ -16,6 +16,7 @@ class DidState with _$DidState {
   const factory DidState({
     @Default(true) bool isLoading,
     @Default(false) bool isSaving,
+    @Default(false) bool isBack,
     @Default(0) int recordAdded,
     List<DidDocument>? didDocuments,
   }) = _DidState;
@@ -42,9 +43,9 @@ class DidNotifier extends StateNotifier<DidState> {
 
     if (address.isNotEmpty) {
       final didDocuments = await didService.getDidDocumentByUser(address);
-      state = state.copyWith(didDocuments: didDocuments, isLoading: false);
+      state = state.copyWith(didDocuments: didDocuments, isLoading: false, isBack: false);
     } else {
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoading: false, isBack: false);
     }
 
   }
@@ -73,8 +74,12 @@ class DidNotifier extends StateNotifier<DidState> {
     state = state.copyWith(isSaving: status);
   }
 
+  updateIsBack(bool status) {
+    state = state.copyWith(isBack: status);
+  }
+
   cancelTask() {
-    state = state.copyWith(isSaving: false, isLoading: false);
+    state = state.copyWith(isSaving: false, isLoading: false, isBack: true);
   }
 }
 

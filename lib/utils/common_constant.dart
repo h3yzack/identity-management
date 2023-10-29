@@ -82,6 +82,7 @@ class StringConstants {
   static const String copiedToClipboard = 'Copied to clipboard';
   static const String connectionFailed = 'Session setup failed';
   static const String connectionEstablished = 'Session established';
+  static const String recordDeleted = 'Record deleted';
 }
 
 enum IdConnectionState {

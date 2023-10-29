@@ -27,6 +27,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     
     bool isLoading = ref.watch(didDocumentProvider).isLoading;
+    bool isBack = ref.watch(didDocumentProvider).isBack;
+
+    print('isBack status: $isBack');
+    if (isBack) {
+      // List<DidDocument> didDocuments = ref.watch(didDocumentProvider).didDocuments ?? [];
+      // print('total doc: ${didDocuments.length}') ;
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          reload();
+        }
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(

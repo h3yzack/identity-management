@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:myid_wallet/model/issued_credential.dart';
 import 'package:myid_wallet/pages/home_page.dart';
+import 'package:myid_wallet/pages/issuer/issuer_detail_page.dart';
 import 'package:myid_wallet/pages/issuer/issuer_form_page.dart';
 import 'package:myid_wallet/pages/login_page.dart';
 import 'package:myid_wallet/pages/profile/form_page.dart';
@@ -60,9 +61,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _web3App = await Web3App.createInstance(
       projectId: MyIdConstant.projectId,
       metadata: const PairingMetadata(
-        name: 'MyID Wallet',
-        description: 'MyID Wallet',
-        url: 'https://myidwallet.com/',
+        name: 'MyVC Wallet',
+        description: 'MyVC Wallet',
+        url: 'https://myvcwallet.com/',
         icons: ['https://walletconnect.com/walletconnect-logo.png'],
       ),
     );
@@ -85,7 +86,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
     
     return MaterialApp(
-      title: 'My ID Wallet',
+      title: 'My VC Wallet',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
@@ -114,6 +115,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           final param = args['id'];
           return MaterialPageRoute(
             builder: (context) => IssuerFormPage(web3App: _web3App!, id: param),
+          );
+        } else if (settings.name == MyIdRoutes.issuerCredentialDetail) {
+          final args = settings.arguments as Map<String, String?>;
+          final param = args['id'];
+          return MaterialPageRoute(
+            builder: (context) => IssuerDetailPage(web3App: _web3App!, id: param),
           );
         }
       },

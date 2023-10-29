@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:myid_wallet/model/chain_metadata.dart';
@@ -186,7 +189,14 @@ class _AccountPageState extends State<AccountPage> {
   sign() async {
     var topic = await SessionProvider.getTopic();
     ChainMetadata chain = MyIdConstant.testChain;
-    String data = '0xb27058d5e07484c851bca8c16503e3e92cd2ee6bce946d64f9e8d8cbd3b12a16';
+
+    // String raw = '0xc16a39D447a6775f0BDfCc9B4BD9846343F7caaddid:myid:23235454324322e4bbdf7c-95c3-4cf6-a48d-d85b8cdb5f89'
+    String data = '0xf4b1864725aaf821efbacc8e242935745f7a39d2643ccc26c9c0371778d1d753';
+
+    // var x = '0x${hex.encode(utf8.encode('Hello World'))}';
+    print('data: $data - ${accountAddress.toString()}');
+
+    // String data = 'hello';
 
     var ress = await widget.web3App.request(
       topic: topic.toString(),

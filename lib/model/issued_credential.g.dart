@@ -26,13 +26,14 @@ class IssuedCredentialAdapter extends TypeAdapter<IssuedCredential> {
       issuerAddress: fields[6] as String?,
       issueDate: fields[7] as DateTime?,
       createdBy: fields[8] as String?,
+      issued: fields[9] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, IssuedCredential obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.credentialId)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class IssuedCredentialAdapter extends TypeAdapter<IssuedCredential> {
       ..writeByte(7)
       ..write(obj.issueDate)
       ..writeByte(8)
-      ..write(obj.createdBy);
+      ..write(obj.createdBy)
+      ..writeByte(9)
+      ..write(obj.issued);
   }
 
   @override

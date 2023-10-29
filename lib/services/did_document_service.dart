@@ -85,7 +85,7 @@ class DidDocumentService {
       DidDocument didDocument = DidDocument(did: did, didType: type, title: name, 
                                   user: sessionInfo.address, signature: signature);
 
-      _addDid(web3App, didDocument, sessionInfo);
+      await _addDid(web3App, didDocument, sessionInfo);
       
     } catch (e) {
       return false;
@@ -113,7 +113,6 @@ class DidDocumentService {
         ],
       );
 
-      print('submit to contract address ${_contractAddress.toString()}');
 
     EthereumTransaction ethereumTransaction = EthereumTransaction(
         from: didDocument.user,

@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DidState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isSaving => throw _privateConstructorUsedError;
+  bool get isBack => throw _privateConstructorUsedError;
   int get recordAdded => throw _privateConstructorUsedError;
   List<DidDocument>? get didDocuments => throw _privateConstructorUsedError;
 
@@ -34,6 +35,7 @@ abstract class $DidStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isSaving,
+      bool isBack,
       int recordAdded,
       List<DidDocument>? didDocuments});
 }
@@ -53,6 +55,7 @@ class _$DidStateCopyWithImpl<$Res, $Val extends DidState>
   $Res call({
     Object? isLoading = null,
     Object? isSaving = null,
+    Object? isBack = null,
     Object? recordAdded = null,
     Object? didDocuments = freezed,
   }) {
@@ -64,6 +67,10 @@ class _$DidStateCopyWithImpl<$Res, $Val extends DidState>
       isSaving: null == isSaving
           ? _value.isSaving
           : isSaving // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBack: null == isBack
+          ? _value.isBack
+          : isBack // ignore: cast_nullable_to_non_nullable
               as bool,
       recordAdded: null == recordAdded
           ? _value.recordAdded
@@ -87,6 +94,7 @@ abstract class _$$_DidStateCopyWith<$Res> implements $DidStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isSaving,
+      bool isBack,
       int recordAdded,
       List<DidDocument>? didDocuments});
 }
@@ -104,6 +112,7 @@ class __$$_DidStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? isSaving = null,
+    Object? isBack = null,
     Object? recordAdded = null,
     Object? didDocuments = freezed,
   }) {
@@ -115,6 +124,10 @@ class __$$_DidStateCopyWithImpl<$Res>
       isSaving: null == isSaving
           ? _value.isSaving
           : isSaving // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isBack: null == isBack
+          ? _value.isBack
+          : isBack // ignore: cast_nullable_to_non_nullable
               as bool,
       recordAdded: null == recordAdded
           ? _value.recordAdded
@@ -134,6 +147,7 @@ class _$_DidState extends _DidState {
   const _$_DidState(
       {this.isLoading = true,
       this.isSaving = false,
+      this.isBack = false,
       this.recordAdded = 0,
       final List<DidDocument>? didDocuments})
       : _didDocuments = didDocuments,
@@ -145,6 +159,9 @@ class _$_DidState extends _DidState {
   @override
   @JsonKey()
   final bool isSaving;
+  @override
+  @JsonKey()
+  final bool isBack;
   @override
   @JsonKey()
   final int recordAdded;
@@ -160,7 +177,7 @@ class _$_DidState extends _DidState {
 
   @override
   String toString() {
-    return 'DidState(isLoading: $isLoading, isSaving: $isSaving, recordAdded: $recordAdded, didDocuments: $didDocuments)';
+    return 'DidState(isLoading: $isLoading, isSaving: $isSaving, isBack: $isBack, recordAdded: $recordAdded, didDocuments: $didDocuments)';
   }
 
   @override
@@ -172,6 +189,7 @@ class _$_DidState extends _DidState {
                 other.isLoading == isLoading) &&
             (identical(other.isSaving, isSaving) ||
                 other.isSaving == isSaving) &&
+            (identical(other.isBack, isBack) || other.isBack == isBack) &&
             (identical(other.recordAdded, recordAdded) ||
                 other.recordAdded == recordAdded) &&
             const DeepCollectionEquality()
@@ -179,8 +197,8 @@ class _$_DidState extends _DidState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, isSaving, recordAdded,
-      const DeepCollectionEquality().hash(_didDocuments));
+  int get hashCode => Object.hash(runtimeType, isLoading, isSaving, isBack,
+      recordAdded, const DeepCollectionEquality().hash(_didDocuments));
 
   @JsonKey(ignore: true)
   @override
@@ -193,6 +211,7 @@ abstract class _DidState extends DidState {
   const factory _DidState(
       {final bool isLoading,
       final bool isSaving,
+      final bool isBack,
       final int recordAdded,
       final List<DidDocument>? didDocuments}) = _$_DidState;
   const _DidState._() : super._();
@@ -201,6 +220,8 @@ abstract class _DidState extends DidState {
   bool get isLoading;
   @override
   bool get isSaving;
+  @override
+  bool get isBack;
   @override
   int get recordAdded;
   @override

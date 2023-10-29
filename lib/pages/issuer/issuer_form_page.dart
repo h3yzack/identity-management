@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,24 +5,27 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myid_wallet/model/did_document.dart';
 import 'package:myid_wallet/model/issued_credential.dart';
 import 'package:myid_wallet/provider/did_provider.dart';
 import 'package:myid_wallet/provider/issued_credential_provider.dart';
+import 'package:myid_wallet/services/issued_credential_service.dart';
 import 'package:myid_wallet/utils/common_util.dart';
+import 'package:myid_wallet/utils/routes.dart';
 import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:walletconnect_flutter_v2/apis/web3app/web3app.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class IssuerFormPage extends ConsumerStatefulWidget {
   final String? id;
   final Web3App web3App;
-  
+
   const IssuerFormPage({super.key, required this.web3App, this.id});
 
   @override
   ConsumerState<IssuerFormPage> createState() => _IssuerFormPageState();
-
 }
 
 class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
@@ -31,24 +33,27 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
   PlatformFile? _file;
   String? _fileBase64;
   DateTime? _selectedDate;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Issue New Credential'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: SingleChildScrollView(child: _buildForm(ref),)
-      
-    );
+        appBar: AppBar(
+          title: const Text('Issue New Credential'),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        body: SingleChildScrollView(
+          child: _buildForm(ref),
+        ));
   }
 
   Widget _buildForm(WidgetRef ref) {
-    List<DidDocument> didDocuments = ref.watch(didDocumentProvider).didDocuments ?? [];
+    List<DidDocument> didDocuments =
+        ref.watch(didDocumentProvider).didDocuments ?? [];
 
-    return Padding(
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FormBuilder(
           key: _formKey,
@@ -74,19 +79,19 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
                 ],
                 validator: FormBuilderValidators.required(),
                 onChanged: (value) {
-                    if (value != null) {
-                      // print(value);
-                      // String base64String = CommonUtil.convertPlatformFileToBase64(value[0]);
-                      // setState(() {
-                      //   // Convert the selected file to a Base64 string
-                      //   _fileBase64 = base64String;
-                      // });
-                    }
-                  },
+                  if (value != null) {
+                    // print(value);
+                    // String base64String = CommonUtil.convertPlatformFileToBase64(value[0]);
+                    // setState(() {
+                    //   // Convert the selected file to a Base64 string
+                    //   _fileBase64 = base64String;
+                    // });
+                  }
+                },
               ),
               if (_fileBase64 != null) ...[
-                  Text('Base64 String: $_fileBase64'),
-                ],
+                Text('Base64 String: $_fileBase64'),
+              ],
               FormBuilderTextField(
                 name: 'userDid',
                 decoration: InputDecoration(
@@ -97,7 +102,8 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
                       // Implement QR code scanning logic here
                     },
                   ),
-                  errorText: _formKey.currentState?.fields['userDid']?.errorText,
+                  errorText:
+                      _formKey.currentState?.fields['userDid']?.errorText,
                 ),
                 validator: FormBuilderValidators.required(),
               ),
@@ -105,7 +111,7 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
                 name: 'issuerDid',
                 decoration: const InputDecoration(labelText: 'Issuer DID'),
                 validator: FormBuilderValidators.required(),
-                items: didDocuments 
+                items: didDocuments
                     .map((issuer) => DropdownMenuItem(
                           value: issuer.did,
                           child: Text(issuer.title),
@@ -122,24 +128,27 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
               //           ))
               //       .toList(),
               // ),
-              FormBuilderDateTimePicker(
-                  name: 'selectedDate',
-                  inputType: InputType.date,
-                  decoration: const InputDecoration(labelText: 'Issue Date'),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedDate = value;
-                    });
-                  },
-                ),
+              // FormBuilderDateTimePicker(
+              //   name: 'selectedDate',
+              //   inputType: InputType.date,
+              //   decoration: const InputDecoration(labelText: 'Issue Date'),
+              //   onChanged: (value) {
+              //     setState(() {
+              //       _selectedDate = value;
+              //     });
+              //   },
+              // ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.saveAndValidate()) {
                     final formData = _formKey.currentState!.value;
                     // Handle form data submission here
                     print(formData);
-                    issueCredential(formData);
+                    String? id = await issueCredential(formData);
+                    if (id != null) {
+                      _goToDetailPage(id.toString());
+                    }
                   }
                 },
                 child: const Text('Submit'),
@@ -147,37 +156,65 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 
-  issueCredential(Map<String, dynamic> formData ) async {
+  Future<String?> issueCredential(Map<String, dynamic> formData) async {
+    setState(() {
+      isLoading = true;
+    });
     try {
-      String base64String = CommonUtil.convertPlatformFileToBase64(formData['file'][0]);
+      String base64String =
+          CommonUtil.convertPlatformFileToBase64(formData['file'][0]);
       SessionInfo sessionInfo = await SessionProvider.getSessionInfo();
 
-      final icBox = await Hive.openBox<IssuedCredential>('IssuedCredential');
+      // final icBox = await Hive.openBox<IssuedCredential>('IssuedCredential');
+
+      var uuid = const Uuid();
+      String uniqueId = uuid.v4();
 
       final issuedCredential = IssuedCredential(
+        credentialId: uniqueId,
         base64Data: base64String,
-        issueDate: formData['selectedDate'],
+        // issueDate: formData['selectedDate'],
+        issueDate: DateTime.now(),
         issuerDid: formData['issuerDid'],
         userDid: formData['userDid'],
         createdBy: sessionInfo.address,
+        issuerAddress: sessionInfo.address,
       );
 
-      icBox.add(issuedCredential);
+      // icBox.put(uniqueId, issuedCredential);
+      final icService = IssuedCredentialService();
+      await icService.save(uniqueId, issuedCredential);
 
-      print('record saved...');
+      print('record saved - credentialId: $uniqueId');
       ref.read(issuedCredentialProvider.notifier).loadRecords();
 
       print(base64String);
 
-      Navigator.pop(context, true);
+      setState(() {
+        isLoading = false;
+      });
+
+      // Navigator.pop(context, true);
+      return uniqueId;
     } catch (e) {
       print('ERRROR: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
+
+    return null;
   }
 
-  
+  void _close() {
+    Navigator.pop(context, true);
+  }
 
+  void _goToDetailPage(String id) {
+    Navigator.popAndPushNamed(context, MyIdRoutes.issuerCredentialDetail, arguments: {'id': id});
+  }
 }

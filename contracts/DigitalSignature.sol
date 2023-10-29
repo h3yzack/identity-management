@@ -29,6 +29,13 @@ contract DigitalSignature {
         return recoverSigner(ethSignedMessageHash, signature) == _signer;
     }
 
+    function verify(address _signer, bytes32 messageHash, bytes memory signature) public pure returns (bool) {
+        bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+
+        return recoverSigner(ethSignedMessageHash, signature) == _signer;
+
+    }
+
     function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
         public
         pure

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myid_wallet/model/issued_credential.dart';
 import 'package:myid_wallet/provider/issued_credential_provider.dart';
+import 'package:myid_wallet/utils/common_util.dart';
 import 'package:myid_wallet/utils/routes.dart';
 import 'package:myid_wallet/utils/session_provider.dart';
 
@@ -34,7 +35,7 @@ class _IssuerPageState extends ConsumerState<IssuerPage> {
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
-                goToDetail('');
+                addNewRecord('');
                 // reload();
               },
             ),
@@ -86,12 +87,14 @@ class _IssuerPageState extends ConsumerState<IssuerPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             var record = records[index];
+            var date = CommonUtil.formatDate((record.issueDate));
             return ListTile(
-              title: Text(record.issueDate.toString()),
-              subtitle: Text(record.userDid ?? ''),
+              title: Text(date),
+              subtitle: Text(record.createdBy ?? ''),
               trailing: const Icon(Icons.arrow_right_sharp),
                 onTap: () {
-                  // goToDetail(record.did);
+                  print('record: $index');
+                  _goToDetailPage(record.key ?? '');
                 },
             );
           },
@@ -108,7 +111,7 @@ class _IssuerPageState extends ConsumerState<IssuerPage> {
     }
   }
 
-  goToDetail(String id) async {
+  addNewRecord(String id) async {
     
     final out = await Navigator.pushNamed(context, MyIdRoutes.issueCredentialForm, arguments: {'id': id});
 
@@ -118,6 +121,11 @@ class _IssuerPageState extends ConsumerState<IssuerPage> {
 
   reload() {
     ref.read(issuedCredentialProvider.notifier).loadRecords();
+  }
+
+  void _goToDetailPage(String id) {
+    print('id to view: $id');
+    Navigator.pushNamed(context, MyIdRoutes.issuerCredentialDetail, arguments: {'id': id});
   }
 
 }
