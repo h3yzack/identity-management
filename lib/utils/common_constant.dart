@@ -83,6 +83,7 @@ class StringConstants {
   static const String connectionFailed = 'Session setup failed';
   static const String connectionEstablished = 'Session established';
   static const String recordDeleted = 'Record deleted';
+  static const String recordSaved = 'Record saved';
 }
 
 enum IdConnectionState {

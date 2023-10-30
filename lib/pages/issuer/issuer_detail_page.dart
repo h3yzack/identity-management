@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:fl_toast/fl_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:myid_wallet/provider/issued_credential_provider.dart';
 import 'package:myid_wallet/services/issued_credential_service.dart';
 import 'package:myid_wallet/utils/common_constant.dart';
 import 'package:myid_wallet/utils/common_util.dart';
+import 'package:myid_wallet/utils/routes.dart';
 import 'package:myid_wallet/widgets/image_widget.dart';
 import 'package:myid_wallet/widgets/text_widget.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
@@ -86,7 +88,7 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
           if (isVerified) TextWidget('Signature', credential?.signature ?? 'N/A', 2),
           _getVerifiedStatusWidget(isVerified),
           const SizedBox(height: 20.0),
-          _getButtonsWidget(),
+          _getButtonsWidget(isVerified),
         ],
       ),
     );
@@ -119,7 +121,7 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
     );
   }
 
-  Widget _getButtonsWidget() {
+  Widget _getButtonsWidget(bool isVerified) {
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -155,9 +157,66 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
               ),
             ),
           ),
+          const SizedBox(width: 10),
+          if (isVerified) _getDownloadButton(),
         ],
       ),
     );
+  }
+
+  _getDownloadButton() {
+    return ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey),
+            ),
+            onPressed: () async {
+              // Navigator.pushNamed(context, MyIdRoutes.issuerCredentialDownload, arguments: {'id': _id});
+              await _downloadAsFile();
+            },
+            child: const Text(
+              'Download',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+              ),
+            ),
+          );
+  }
+
+  _downloadAsFile() async {
+
+    if (credential != null) {
+      Map<String, dynamic> jsonObject = {
+              'credentialId': credential!.credentialId,
+              'signature': credential!.signature,
+              'issuedDate': credential!.issueDate!.toIso8601String(),
+              'issuerAddress': credential!.createdBy,
+              'issuerDid': credential!.issuerDid,
+              'userDid': credential!.userDid,
+              'signData': credential!.hashData,
+              'base64Data': credential!.base64Data
+            };
+
+      String jsonString = jsonEncode(jsonObject);
+      List<int> bytes = utf8.encode(jsonString);
+      Uint8List uint8List = Uint8List.fromList(bytes);
+
+      if (kIsWeb) {
+        await FileSaver.instance.saveFile(
+            name: 'myvc-wallet',
+            bytes: uint8List,
+            ext: 'txt',
+            mimeType: MimeType.text);
+      } else {
+        await FileSaver.instance.saveAs(
+            name: 'myvc-wallet',
+            bytes: uint8List,
+            ext: 'txt',
+            mimeType: MimeType.text);
+      }
+      
+    }
+    
   }
 
   _verify() async {
@@ -182,8 +241,6 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
     final icService = await IssuedCredentialService.web3().loadContract();
     bool status =
         await icService.validateCredential(widget.web3App, credential!);
-
-    print('status validate: $status');
 
     await _showValidateStatus(status);
 
@@ -248,12 +305,15 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
   }
 
   Future<void> _showValidateStatus(bool status) async {
+    String textStatus = status ? 'VERIFIED' : 'FAILED';
+
+    print('status validate: $textStatus');
     await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Status'),
-            content: Text('Signature validation : $status'),
+            content: Text('Signature validation : $textStatus'),
             actions: <Widget>[
               ElevatedButton(
                 child: const Text('OK'),

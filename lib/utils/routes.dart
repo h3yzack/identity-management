@@ -8,4 +8,8 @@ class MyIdRoutes {
   static const String profileForm = '/profile/form/:id';
   static const String issueCredentialForm = '/credential/form/:id';
   static const String issuerCredentialDetail = '/credential/detail/:id';
+  static const String issuerCredentialDownload = '/credential/download/:id';
+
+  static const String uploadCredential = '/myId/upload';
+  static const String myIdDetail = '/myId/detail';
 }

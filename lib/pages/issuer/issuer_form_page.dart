@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myid_wallet/model/did_document.dart';
 import 'package:myid_wallet/model/issued_credential.dart';
@@ -48,8 +46,7 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
   }
 
   Widget _buildForm(WidgetRef ref) {
-    List<DidDocument> didDocuments =
-        ref.watch(didDocumentProvider).didDocuments ?? [];
+    List<DidDocument> didDocuments = ref.watch(didDocumentProvider).didDocuments ?? [];
 
     return ModalProgressHUD(
       inAsyncCall: isLoading,
@@ -79,19 +76,20 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
                 ],
                 validator: FormBuilderValidators.required(),
                 onChanged: (value) {
+                  // print('value: $value');
                   if (value != null) {
-                    // print(value);
-                    // String base64String = CommonUtil.convertPlatformFileToBase64(value[0]);
-                    // setState(() {
-                    //   // Convert the selected file to a Base64 string
-                    //   _fileBase64 = base64String;
-                    // });
+                    print(value[0]);
+                    String base64String = CommonUtil.convertPlatformFileToBase64(value[0]);
+                    setState(() {
+                      // Convert the selected file to a Base64 string
+                      _fileBase64 = base64String;
+                    });
                   }
                 },
               ),
-              if (_fileBase64 != null) ...[
-                Text('Base64 String: $_fileBase64'),
-              ],
+              // if (_fileBase64 != null) ...[
+              //   Text('Base64 String: $_fileBase64'),
+              // ],
               FormBuilderTextField(
                 name: 'userDid',
                 decoration: InputDecoration(

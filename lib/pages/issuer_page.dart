@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myid_wallet/model/issued_credential.dart';
@@ -64,51 +66,70 @@ class _IssuerPageState extends ConsumerState<IssuerPage> {
   Widget _buildListOrEmptyState(WidgetRef ref) {
     List<IssuedCredential> records = ref.watch(issuedCredentialProvider).credentials ?? [];
 
-    // Check if the list is empty
-    if (records.isEmpty) {
-      return RefreshIndicator(
-        onRefresh: () {
-          return Future.delayed(
-              const Duration(seconds: 1),
-              () {
-                reload();
-              }
-            );
-        },
-        child:  const Center(
-            child: Text('No record'),
-          ));
-    } else {
-      // Build the ListView when the list is not empty
-      return RefreshIndicator(
-        child: ListView.separated(
+    return RefreshIndicator(
+        onRefresh: _refresh,
+        child: records.isEmpty
+            ? ListView.builder(
+                padding: const EdgeInsets.all(20.0),
+                physics:const AlwaysScrollableScrollPhysics(),
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  return const Center(
+                      child: Text('No records available'),
+                    );
+                },
+              )
+              
+            : _buildList(records),
+      );
+  }
+
+  Future<void> _refresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    reload();
+  }
+
+  Widget _buildList(List<IssuedCredential> records) {
+    return ListView.builder(
+          padding: const EdgeInsets.all(10.0),
           itemCount: records.length,
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
             var record = records[index];
             var date = CommonUtil.formatDate((record.issueDate));
-            return ListTile(
-              title: Text(date),
-              subtitle: Text(record.createdBy ?? ''),
-              trailing: const Icon(Icons.arrow_right_sharp),
+            bool status = record.issued ?? false;
+            return Card(
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: MemoryImage(base64Decode(record.base64Data!)),
+                ),
+                title: Text(record.credentialId!),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Issued Date: $date'),
+                    // Text('Status : $status'),
+                    status
+                      ? const Text(
+                          'Verified',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 70, 117, 72),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : const Text('Unverified', style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          )),
+                  ],
+                ),
                 onTap: () {
-                  print('record: $index');
                   _goToDetailPage(record.key ?? '');
                 },
+              ),
             );
           },
-        ), onRefresh: () { 
-            return Future.delayed(
-              const Duration(seconds: 1),
-              () {
-
-                reload();
-              }
-            );
-        },
-      );
-    }
+        );
   }
 
   addNewRecord(String id) async {

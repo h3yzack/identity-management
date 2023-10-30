@@ -126,9 +126,27 @@ class IssuedCredentialService {
 
     try {
       // get from blockchain
-      VerifiedCredential verifiedCredential = await _getVerifiedCredential(issuedCredential);
+      VerifiedCredential verifiedCredential = await _getVerifiedCredential(issuedCredential.credentialId!, issuedCredential.userDid!);
 
-      var statusVerify = await _verifySignature(issuedCredential);
+      var statusVerify = await _verifySignature(issuedCredential.credentialId!, issuedCredential.userDid!);
+
+      print('status of signature verification: $statusVerify');
+
+    } catch (e) {
+        print(e.toString());
+        return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> verifyCredential(String credentialId, String userDid) async {
+
+    try {
+      // get from blockchain
+      // VerifiedCredential verifiedCredential = await _getVerifiedCredential(credentialId, userDid);
+
+      var statusVerify = await _verifySignature(credentialId, userDid);
 
       print('status of signature verification: $statusVerify');
 
@@ -204,9 +222,9 @@ class IssuedCredentialService {
     return result.first;
   }
 
-  Future<VerifiedCredential> _getVerifiedCredential(IssuedCredential issuedCredential) async {
+  Future<VerifiedCredential> _getVerifiedCredential(String credentialId, String userDid) async {
     final result = await web3client!.call(contract: _deployedContract, function: _deployedContract.function(SC_METHOD.getCredential.name), 
-                                          params: [issuedCredential.userDid, issuedCredential.credentialId]);
+                                          params: [userDid, credentialId]);
 
     print(result.first.toString());
 
@@ -214,9 +232,9 @@ class IssuedCredentialService {
 
   }
 
-  Future<String> _verifySignature(IssuedCredential issuedCredential) async {
+  Future<String> _verifySignature(String credentialId, String userDid) async {
     final result = await web3client!.call(contract: _deployedContract, function: _deployedContract.function(SC_METHOD.verify.name), 
-                                          params: [issuedCredential.userDid, issuedCredential.credentialId]);
+                                          params: [userDid, credentialId]);
 
     return result.first.toString();
   }
