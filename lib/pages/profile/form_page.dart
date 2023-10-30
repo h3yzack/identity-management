@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:myid_wallet/provider/did_provider.dart';
-import 'package:myid_wallet/services/did_document_service.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/provider/did_provider.dart';
+import 'package:myvc_wallet/services/did_document_service.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 class ProfileFormPage extends ConsumerStatefulWidget {

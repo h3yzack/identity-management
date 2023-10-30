@@ -1,6 +1,6 @@
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:myid_wallet/model/wallet_credential.dart';
+import 'package:myvc_wallet/model/wallet_credential.dart';
 
 class WalletService {
 

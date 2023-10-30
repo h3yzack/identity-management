@@ -5,9 +5,9 @@ import 'package:convert/convert.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/services/issued_credential_service.dart';
-import 'package:myid_wallet/widgets/text_widget.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/services/issued_credential_service.dart';
+import 'package:myvc_wallet/widgets/text_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 

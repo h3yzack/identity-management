@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/provider/issued_credential_provider.dart';
-import 'package:myid_wallet/utils/common_util.dart';
-import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/provider/issued_credential_provider.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/utils/routes.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 
 
 class IssuerPage extends ConsumerStatefulWidget {

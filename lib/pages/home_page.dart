@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myid_wallet/pages/account_page.dart';
-import 'package:myid_wallet/pages/issuer_page.dart';
-import 'package:myid_wallet/pages/myid_page.dart';
-import 'package:myid_wallet/pages/profile_page.dart';
-import 'package:myid_wallet/pages/verifier_page.dart';
-import 'package:myid_wallet/provider/did_provider.dart';
-import 'package:myid_wallet/provider/issued_credential_provider.dart';
-import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/pages/account_page.dart';
+import 'package:myvc_wallet/pages/issuer_page.dart';
+import 'package:myvc_wallet/pages/myid_page.dart';
+import 'package:myvc_wallet/pages/profile_page.dart';
+import 'package:myvc_wallet/pages/verifier_page.dart';
+import 'package:myvc_wallet/provider/did_provider.dart';
+import 'package:myvc_wallet/provider/issued_credential_provider.dart';
+import 'package:myvc_wallet/utils/routes.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 

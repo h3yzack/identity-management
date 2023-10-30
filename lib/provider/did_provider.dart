@@ -2,10 +2,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
-import 'package:myid_wallet/model/did_document.dart';
-import 'package:myid_wallet/services/did_document_service.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/did_document.dart';
+import 'package:myvc_wallet/services/did_document_service.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/apis/web3app/web3app.dart';
 import 'package:web3dart/web3dart.dart';
 

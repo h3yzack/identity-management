@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/provider/issued_credential_provider.dart';
-import 'package:myid_wallet/services/issued_credential_service.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/common_util.dart';
-import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/widgets/image_widget.dart';
-import 'package:myid_wallet/widgets/text_widget.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/provider/issued_credential_provider.dart';
+import 'package:myvc_wallet/services/issued_credential_service.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/utils/routes.dart';
+import 'package:myvc_wallet/widgets/image_widget.dart';
+import 'package:myvc_wallet/widgets/text_widget.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 class IssuerDetailPage extends ConsumerStatefulWidget {
@@ -75,7 +75,7 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
     // bool isVerified = false;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
 import 'package:web3dart/web3dart.dart';
 
 // final _contractProvider = ChangeNotifierProvider((ref) => AccountInfoService());

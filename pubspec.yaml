@@ -1,4 +1,4 @@
-name: myid_wallet
+name: myvc_wallet
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -63,7 +63,6 @@ dependencies:
   intl: ^0.18.1
   permission_handler: ^11.0.1
   device_info_plus: ^9.1.0
-  ai_barcode_scanner: ^3.4.1
   share_plus: ^7.2.1
   file_saver: ^0.2.6
   
@@ -101,6 +100,7 @@ flutter:
      - assets/contracts/DIDRegistry.json
      - assets/contracts/MyIdUtil.json
      - assets/contracts/VerifiableCredential.json
+     - assets/contracts/PresentRequest.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myid_wallet/model/chain_metadata.dart';
+import 'package:myvc_wallet/model/chain_metadata.dart';
 
 class MyIdConstant {
   static const String projectId = '22bf11a2a23ee7f716654ab11cec27af';

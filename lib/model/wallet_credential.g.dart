@@ -22,7 +22,7 @@ class WalletCredentialAdapter extends TypeAdapter<WalletCredential> {
       issuerDid: fields[4] as String,
       issuerAddress: fields[3] as String,
       base64Data: fields[8] as String,
-      signedData: fields[7] as String,
+      signedData: fields[7] as String?,
       signature: fields[1] as String,
       issueDate: fields[2] as DateTime,
       name: fields[6] as String?,

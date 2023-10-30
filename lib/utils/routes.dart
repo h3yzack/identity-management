@@ -12,4 +12,7 @@ class MyIdRoutes {
 
   static const String uploadCredential = '/myId/upload';
   static const String myIdDetail = '/myId/detail';
+  static const String myIdSubmitRequest = '/myId/submit-request';
+
+  static const String verifierViewRequest = '/verifier/view-request';
 }

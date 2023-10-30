@@ -5,13 +5,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:myid_wallet/model/wallet_credential.dart';
-import 'package:myid_wallet/services/issued_credential_service.dart';
-import 'package:myid_wallet/services/wallet_service.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/common_util.dart';
-import 'package:myid_wallet/widgets/image_widget.dart';
-import 'package:myid_wallet/widgets/text_widget.dart';
+import 'package:myvc_wallet/model/wallet_credential.dart';
+import 'package:myvc_wallet/services/issued_credential_service.dart';
+import 'package:myvc_wallet/services/wallet_service.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/widgets/image_widget.dart';
+import 'package:myvc_wallet/widgets/text_widget.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 class WalletDetailPage extends ConsumerStatefulWidget {
@@ -171,8 +171,6 @@ class _WalletDetailPageState extends ConsumerState<WalletDetailPage> {
                       ),
                       ),
     );
-
-
   }
 
   _validate() async {

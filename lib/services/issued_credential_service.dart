@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
-import 'package:myid_wallet/model/chain_metadata.dart';
-import 'package:myid_wallet/model/ethereum_transaction.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/model/verified_credential.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/crypto/eip155.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/chain_metadata.dart';
+import 'package:myvc_wallet/model/ethereum_transaction.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/model/verified_credential.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/crypto/eip155.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -126,7 +126,7 @@ class IssuedCredentialService {
 
     try {
       // get from blockchain
-      VerifiedCredential verifiedCredential = await _getVerifiedCredential(issuedCredential.credentialId!, issuedCredential.userDid!);
+      VerifiedCredential verifiedCredential = await getVerifiedCredential(issuedCredential.credentialId!, issuedCredential.userDid!);
 
       var statusVerify = await _verifySignature(issuedCredential.credentialId!, issuedCredential.userDid!);
 
@@ -222,7 +222,7 @@ class IssuedCredentialService {
     return result.first;
   }
 
-  Future<VerifiedCredential> _getVerifiedCredential(String credentialId, String userDid) async {
+  Future<VerifiedCredential> getVerifiedCredential(String credentialId, String userDid) async {
     final result = await web3client!.call(contract: _deployedContract, function: _deployedContract.function(SC_METHOD.getCredential.name), 
                                           params: [userDid, credentialId]);
 

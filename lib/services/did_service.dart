@@ -5,12 +5,12 @@ import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:myid_wallet/model/chain_metadata.dart';
-import 'package:myid_wallet/model/did_document.dart';
-import 'package:myid_wallet/model/ethereum_transaction.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/crypto/eip155.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/chain_metadata.dart';
+import 'package:myvc_wallet/model/did_document.dart';
+import 'package:myvc_wallet/model/ethereum_transaction.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/crypto/eip155.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 import 'package:web3dart/web3dart.dart';
 

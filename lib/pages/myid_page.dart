@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:myid_wallet/model/wallet_credential.dart';
-import 'package:myid_wallet/services/wallet_service.dart';
-import 'package:myid_wallet/utils/common_util.dart';
-import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/wallet_credential.dart';
+import 'package:myvc_wallet/services/wallet_service.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/utils/routes.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 
 
 class MyIdPage extends StatefulWidget {
@@ -46,6 +47,21 @@ class _MyIdPageState extends State<MyIdPage> {
           ],
       ),
       body: _buildListOrEmptyState(),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Scan', // used by assistive technologies
+        onPressed: () {
+          Map<String, String> data = {
+            'requestId': '123',
+            'verifierAddress': '0xeA74Cd133001253377b48DdD9eB9641e6Bb024cA',
+            'title': 'Show me your proof'
+          };
+          String jsonString = jsonEncode(data);
+          String hexString = hex.encode(utf8.encode(jsonString));
+
+          Navigator.pushNamed(context, MyIdRoutes.myIdSubmitRequest, arguments: {'requestData': hexString});
+        },
+        child: const Icon(Icons.qr_code_scanner),
+      ),
     );
   }
   
@@ -90,7 +106,7 @@ class _MyIdPageState extends State<MyIdPage> {
 
   Widget _buildList(List<WalletCredential> records) {
     return ListView.builder(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(20.0),
           itemCount: records.length,
           itemBuilder: (context, index) {
             var record = records[index];
@@ -99,28 +115,26 @@ class _MyIdPageState extends State<MyIdPage> {
             return Card(
               margin: const EdgeInsets.all(5.0),
               child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: MemoryImage(base64Decode(record.base64Data)),
+                // leading: CircleAvatar(
+                //   backgroundImage: MemoryImage(base64Decode(record.base64Data)),
+                // ),
+                leading: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                      image: MemoryImage(base64Decode(record.base64Data)),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 title: Text(record.name ?? record.credentialId),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Issued Date: $date'),
-                    // Text('Status : $status'),
-                    // status
-                    //   ? const Text(
-                    //       'Verified',
-                    //       style: TextStyle(
-                    //         color: Color.fromARGB(255, 70, 117, 72),
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.w700,
-                    //       ),
-                    //     )
-                    //   : const Text('Unverified', style: TextStyle(
-                    //         color: Colors.red,
-                    //         fontSize: 14,
-                    //       )),
+                    Text('Issued: $date'),
+                    const SizedBox(height: 20.0),
                   ],
                 ),
                 onTap: () {

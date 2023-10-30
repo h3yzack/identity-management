@@ -2,14 +2,15 @@ import 'package:fl_toast/fl_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myid_wallet/model/chain_metadata.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/crypto/eip155.dart';
-import 'package:myid_wallet/utils/routes.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/chain_metadata.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/crypto/eip155.dart';
+import 'package:myvc_wallet/utils/routes.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'dart:io' show Platform;
 
 class LoginPage extends StatefulWidget {
 
@@ -187,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
     // debugPrint('URL: $deepLinkUrl');
     
     debugPrint('Is WEB? : $kIsWeb');
-    if (!kIsWeb) {
+    if (!kIsWeb && !Platform.isMacOS) {
       debugPrint('found mobile app ');
       await launchUrlString(res.uri!.toString(), mode: LaunchMode.externalApplication);
     } else {
@@ -214,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
 
       // print(authResponse);
 
-      if (kIsWeb) {
+      if (kIsWeb || Platform.isMacOS) {
         Navigator.pop(context);
       }
 
@@ -227,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       debugPrint(e.toString());
       
-      if (kIsWeb) {
+      if (kIsWeb || Platform.isMacOS) {
         Navigator.pop(context);
       }
 

@@ -1,9 +1,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/services/issued_credential_service.dart';
-import 'package:myid_wallet/utils/session_provider.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/services/issued_credential_service.dart';
+import 'package:myvc_wallet/utils/session_provider.dart';
 
 part 'issued_credential_provider.freezed.dart';
 

@@ -3,9 +3,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:myid_wallet/model/wallet_credential.dart';
-import 'package:myid_wallet/services/wallet_service.dart';
-import 'package:myid_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/model/wallet_credential.dart';
+import 'package:myvc_wallet/services/wallet_service.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
 
 class UploadIdPage extends StatefulWidget {
   const UploadIdPage({super.key});

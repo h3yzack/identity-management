@@ -2,18 +2,20 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:myid_wallet/model/issued_credential.dart';
-import 'package:myid_wallet/model/wallet_credential.dart';
-import 'package:myid_wallet/pages/home_page.dart';
-import 'package:myid_wallet/pages/issuer/issuer_detail_page.dart';
-import 'package:myid_wallet/pages/issuer/issuer_download_page.dart';
-import 'package:myid_wallet/pages/issuer/issuer_form_page.dart';
-import 'package:myid_wallet/pages/login_page.dart';
-import 'package:myid_wallet/pages/profile/form_page.dart';
-import 'package:myid_wallet/pages/wallet/detail_id_page.dart';
-import 'package:myid_wallet/pages/wallet/upload_id_page.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
-import 'package:myid_wallet/utils/routes.dart';
+import 'package:myvc_wallet/model/issued_credential.dart';
+import 'package:myvc_wallet/model/wallet_credential.dart';
+import 'package:myvc_wallet/pages/home_page.dart';
+import 'package:myvc_wallet/pages/issuer/issuer_detail_page.dart';
+import 'package:myvc_wallet/pages/issuer/issuer_download_page.dart';
+import 'package:myvc_wallet/pages/issuer/issuer_form_page.dart';
+import 'package:myvc_wallet/pages/login_page.dart';
+import 'package:myvc_wallet/pages/profile/form_page.dart';
+import 'package:myvc_wallet/pages/verifier/presentation_page.dart';
+import 'package:myvc_wallet/pages/wallet/detail_id_page.dart';
+import 'package:myvc_wallet/pages/wallet/submit_request_page.dart';
+import 'package:myvc_wallet/pages/wallet/upload_id_page.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/routes.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
@@ -127,6 +129,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     
     return MaterialApp(
       title: 'My VC Wallet',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
@@ -174,6 +177,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             final param = args['id']!;
             return MaterialPageRoute(
               builder: (context) => WalletDetailPage(web3App: _web3App!, id: param),
+            );
+        } else if (settings.name == MyIdRoutes.myIdSubmitRequest) {
+            final args = settings.arguments as Map<String, String?>;
+            final requestData = args['requestData']!;  // in hex
+            return MaterialPageRoute(
+              builder: (context) => SubmitRequestPage(web3App: _web3App!, requestData: requestData),
+            );
+        } else if (settings.name == MyIdRoutes.verifierViewRequest) {
+            final args = settings.arguments as Map<String, String?>;
+            final requestData = args['requestData']!;  // in hex
+            return MaterialPageRoute(
+              builder: (context) => CredentialPresentationPage(requestData: requestData),
             );
         }
       },

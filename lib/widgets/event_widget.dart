@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myid_wallet/utils/common_constant.dart';
+import 'package:myvc_wallet/utils/common_constant.dart';
 
 
 class EventWidget extends StatelessWidget {

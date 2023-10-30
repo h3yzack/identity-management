@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myid_wallet/model/did_document.dart';
-import 'package:myid_wallet/provider/did_provider.dart';
-import 'package:myid_wallet/utils/routes.dart';
+import 'package:myvc_wallet/model/did_document.dart';
+import 'package:myvc_wallet/provider/did_provider.dart';
+import 'package:myvc_wallet/utils/routes.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 

@@ -1,5 +1,5 @@
 
-import 'package:myid_wallet/model/ethereum_transaction.dart';
+import 'package:myvc_wallet/model/ethereum_transaction.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 enum EIP155Methods {

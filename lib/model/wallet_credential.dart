@@ -1,6 +1,6 @@
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:myid_wallet/utils/common_util.dart';
+import 'package:myvc_wallet/utils/common_util.dart';
 
 part 'wallet_credential.g.dart';
 
