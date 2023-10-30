@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyID Wallet'),
+        title: const Text('MyVC Wallet'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         
       ),

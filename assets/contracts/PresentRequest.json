@@ -8550,12 +8550,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x6adc6eB0f946b4A3C93b6f2e1F152519dbf69A16",
-      "transactionHash": "0x538acd41cefc333e0611a2099a9a9485b5925d4fb8f97061da731c9a1c70fdfa"
+      "address": "0xC73bD782C6c528d395820e445bA9f8c04b3B022b",
+      "transactionHash": "0x1efd6688b5d5da9e0e5278f11b7a1c02d6f246184405e9bfac485ed6d82cad38"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-10-30T12:18:51.245Z",
+  "updatedAt": "2023-10-30T14:23:05.957Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

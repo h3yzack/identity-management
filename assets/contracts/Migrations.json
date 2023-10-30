@@ -1748,12 +1748,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x06745ac5467b700A822d94f277437b1F6a68A588",
-      "transactionHash": "0x895124589ceca1ade9a1b491a61fefc300e33968aac0d883d1c355e04df0896e"
+      "address": "0x5a5Aa13e6f93E36eA73AA48Fb540F2008608FD37",
+      "transactionHash": "0x2dc77c58d86823562eb4e03dac8366350a54617e046b5c5ffefc64cb9c7a9c3b"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-10-30T12:18:51.261Z",
+  "updatedAt": "2023-10-30T14:23:05.978Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
