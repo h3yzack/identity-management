@@ -93,7 +93,7 @@ class _VerifierPageState extends State<VerifierPage> {
                     }
                   },
                   child: const Text(
-                    'Submit Request',
+                    'Get Request',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,

@@ -200,16 +200,17 @@ class _IssuerDetailPageState extends ConsumerState<IssuerDetailPage> {
       String jsonString = jsonEncode(jsonObject);
       List<int> bytes = utf8.encode(jsonString);
       Uint8List uint8List = Uint8List.fromList(bytes);
+      String name = credential!.credentialId!;
 
       if (kIsWeb) {
         await FileSaver.instance.saveFile(
-            name: 'myvc-wallet',
+            name: name,
             bytes: uint8List,
             ext: 'txt',
             mimeType: MimeType.text);
       } else {
         await FileSaver.instance.saveAs(
-            name: 'myvc-wallet',
+            name: name,
             bytes: uint8List,
             ext: 'txt',
             mimeType: MimeType.text);

@@ -40,7 +40,8 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
           title: const Text('Issue New Credential'),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
-        body: SingleChildScrollView(
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
           child: _buildForm(ref),
         ));
   }
@@ -48,8 +49,7 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
   Widget _buildForm(WidgetRef ref) {
     List<DidDocument> didDocuments = ref.watch(didDocumentProvider).didDocuments ?? [];
 
-    return ModalProgressHUD(
-      inAsyncCall: isLoading,
+    return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FormBuilder(
@@ -92,6 +92,7 @@ class _IssuerFormPageState extends ConsumerState<IssuerFormPage> {
               // ],
               FormBuilderTextField(
                 name: 'userDid',
+                initialValue: 'did:myid:96835567491487994556293920886052686066542156481683624604197956794402706485690',
                 decoration: InputDecoration(
                   labelText: 'User DID',
                   suffixIcon: IconButton(
