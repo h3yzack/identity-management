@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:myvc_wallet/model/chain_metadata.dart';
 
 class MyIdConstant {
-  static const String projectId = '22bf11a2a23ee7f716654ab11cec27af';
-  static const String rpcUrl = 'https://vastly-active-mudfish.ngrok-free.app/';
+  static const String projectId = String.fromEnvironment(
+    'PROJECT_ID',
+  );
+  static const String rpcUrl = 'http://127.0.0.1:7545';
 
-  static const String RPC_URL = "https://vastly-active-mudfish.ngrok-free.app/";
+  static const String RPC_URL = "http://127.0.0.1:7545";
   static const String WS_URL = "ws://0.0.0.0:7545";
 
-  static const String aud = 'https://myidwallet.com/login';
-  static const String domain = 'myidwallet.com';
+  static const String aud = 'https://myvcwallet.com/login';
+  static const String domain = 'myvcwallet.com';
 
   static final testChain = ChainMetadata(
       type: ChainType.eip155,
@@ -18,7 +20,7 @@ class MyIdConstant {
       logo: '/chain-logos/eip155-1.png',
       color: Colors.blue.shade300,
       isTestnet: true,
-      rpc: ['https://vastly-active-mudfish.ngrok-free.app'],
+      rpc: ['http://127.0.0.1:7545'],
     );
 }
 

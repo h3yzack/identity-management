@@ -1,10 +1,19 @@
 # BLOCKCHAIN BASED IDENTITY MANAGEMENT
 
-flutter run -d web-server
+## Useful Commands
 
-flutter run --dart-define=PROJECT_ID=22bf11a2a23ee7f716654ab11cec27af
+`$ flutter pub get` to get dependencies
+
+`$ flutter clean`
+
+`$ flutter pub run build_runner build`
 
 
-https://vastly-active-mudfish.ngrok-free.app/
+## Run the example
 
-flutter pub run build_runner build
+Get Project ID from https://cloud.walletconnect.com/
+
+`$ flutter run --dart-define=PROJECT_ID={YOUR_PROJECT_ID} -d chrome`
+
+
+
